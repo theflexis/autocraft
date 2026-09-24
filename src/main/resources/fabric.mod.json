@@ -1,0 +1,23 @@
+{
+  "schemaVersion": 1,
+  "id": "autocraft",
+  "version": "${version}",
+  "name": "AutoCraft",
+  "description": "Secilen tarifleri, crafting ekrani acikken otomatik olarak craft eden client-side mod.",
+  "authors": ["kanka"],
+  "contact": {},
+  "license": "MIT",
+  "environment": "client",
+  "entrypoints": {
+    "client": [
+      "com.autocraft.mod.AutoCraftClient"
+    ]
+  },
+  "mixins": [],
+  "depends": {
+    "fabricloader": ">=0.15.0",
+    "minecraft": "~1.20.1",
+    "java": ">=17",
+    "fabric-api": "*"
+  }
+}
