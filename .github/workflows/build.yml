@@ -18,11 +18,13 @@ jobs:
           distribution: 'temurin'
           java-version: '17'
 
-      - name: Gradle wrapper oluştur
-        run: gradle wrapper --gradle-version 8.4
+      - name: Gradle 8.4 kur
+        uses: gradle/actions/setup-gradle@v4
+        with:
+          gradle-version: 8.4
 
       - name: Derle
-        run: ./gradlew build --stacktrace
+        run: gradle build --stacktrace
 
       - name: Jar'ı yükle (artifact)
         uses: actions/upload-artifact@v4
