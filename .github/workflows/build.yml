@@ -1,0 +1,31 @@
+name: Build AutoCraft Mod
+
+on:
+  push:
+    branches: [ "main", "master" ]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Kodu indir
+        uses: actions/checkout@v4
+
+      - name: Java 17 kur
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+
+      - name: Gradle wrapper oluştur
+        run: gradle wrapper --gradle-version 8.4
+
+      - name: Derle
+        run: ./gradlew build --stacktrace
+
+      - name: Jar'ı yükle (artifact)
+        uses: actions/upload-artifact@v4
+        with:
+          name: autocraft-jar
+          path: build/libs/*.jar
