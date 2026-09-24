@@ -26,7 +26,7 @@ import java.util.Map;
  */
 public class AutoCraftLogic {
     private static int tickCounter = 0;
-    private static final Map<Item, Identifier> RECIPE_CACHE = new HashMap<>();
+    private static final Map<Item, Recipe<?>> RECIPE_CACHE = new HashMap<>();
 
     public static void tick(MinecraftClient client) {
         AutoCraftConfig cfg = AutoCraftClient.CONFIG;
@@ -67,14 +67,14 @@ public class AutoCraftLogic {
                 continue;
             }
 
-            Identifier recipeId = RECIPE_CACHE.computeIfAbsent(item,
+            Recipe<?> recipe = RECIPE_CACHE.computeIfAbsent(item,
                     i -> findRecipeFor(recipeManager, client, i));
-            if (recipeId == null) {
+            if (recipe == null) {
                 continue;
             }
 
             client.player.networkHandler.sendPacket(
-                    new CraftRequestC2SPacket(handler.syncId, recipeId, cfg.craftAll)
+                    new CraftRequestC2SPacket(handler.syncId, recipe, cfg.craftAll)
             );
 
             if (cfg.chatFeedback) {
@@ -86,14 +86,14 @@ public class AutoCraftLogic {
         }
     }
 
-    private static Identifier findRecipeFor(RecipeManager recipeManager, MinecraftClient client, Item item) {
+    private static Recipe<?> findRecipeFor(RecipeManager recipeManager, MinecraftClient client, Item item) {
         for (Recipe<?> recipe : recipeManager.values()) {
             if (!(recipe instanceof CraftingRecipe craftingRecipe)) {
                 continue;
             }
             ItemStack output = craftingRecipe.getOutput(client.world.getRegistryManager());
             if (output.getItem() == item) {
-                return craftingRecipe.getId();
+                return craftingRecipe;
             }
         }
         return null;
