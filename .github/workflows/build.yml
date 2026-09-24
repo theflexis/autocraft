@@ -18,10 +18,10 @@ jobs:
           distribution: 'temurin'
           java-version: '17'
 
-      - name: Gradle 8.4 kur
+      - name: Gradle 8.8 kur
         uses: gradle/actions/setup-gradle@v4
         with:
-          gradle-version: 8.4
+          gradle-version: 8.8
 
       - name: Derle
         run: gradle build --stacktrace
